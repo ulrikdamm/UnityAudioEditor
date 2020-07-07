@@ -1,7 +1,7 @@
 {
 	"name": "co.northplay.unityaudioeditor",
 	"displayName": "Unity Audio Editor",
-	"version": "0.1",
+	"version": "0.1.0",
 	"unity": "2019.2",
 	"description": "Editor extension for editing audio clips",
 	"keywords": ["audio", "editor"],
