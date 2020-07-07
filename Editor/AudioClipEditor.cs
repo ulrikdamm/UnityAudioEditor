@@ -281,7 +281,7 @@ public class AudioClipEditor : EditorWindow {
 			Repaint();
 		}
 		
-		volumeGraph.drawMouseHover(channelRect(0, currentAudioData.channels), (Texture)AssetDatabase.LoadAssetAtPath("Assets/Editor/Handle.png", typeof(Texture)));
+		if (handleTexture != null) { volumeGraph.drawMouseHover(channelRect(0, currentAudioData.channels), handleTexture); }
 	}
 	
 	void drawChannel(Rect rect, int channel) {
@@ -295,7 +295,23 @@ public class AudioClipEditor : EditorWindow {
 		
 		volumeGraph.drawVolumeLine(volumeRect, new Color(0.1f, 0.1f, 0.1f));
 		volumeGraph.drawVolumeLine(volumeRect, new Color(0.1f, 0.1f, 0.1f), mirrored: true);
-		volumeGraph.drawVolumeHandles(volumeRect, (Texture)AssetDatabase.LoadAssetAtPath("Assets/Editor/Handle.png", typeof(Texture)));
+		
+		if (handleTexture != null) { volumeGraph.drawVolumeHandles(volumeRect, handleTexture); }
+	}
+	
+	Texture _handleTexture;
+	bool _handleTextureDidLoad;
+	Texture handleTexture {
+		get {
+			if (!_handleTextureDidLoad) {
+				_handleTextureDidLoad = true;
+				_handleTexture = (Texture)AssetDatabase.LoadAssetAtPath("Packages/co.northplay.unityaudioeditor/Editor/Handle.png", typeof(Texture));
+				if (_handleTexture == null) { _handleTexture = (Texture)AssetDatabase.LoadAssetAtPath("Assets/UnityAudioEditor/Editor/Handle.png", typeof(Texture)); }
+				if (_handleTexture == null) { Debug.LogError("Couldn't find handle texture"); }
+			}
+			
+			return _handleTexture;
+		}
 	}
 	
 	AudioClip originalSelectedAudioClip {
